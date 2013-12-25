@@ -5,28 +5,49 @@
 
 #include <iostream>
 #include <math.h>
+#include <stdio.h>
 using namespace std;
-long num = 1;
+long long num = 1;
 
-void func(long a){
-	int b = a;
-	int count = 0;
+
+bool isPrime(long long a){
+	if(a == 2)
+		return true;
+	if(a%2 == 0)
+		return false;
+	long long st = sqrt(a);
+	long long t = a > 9? st : 9;
+	for(long long i = 3; i <= t; i+=2){
+		if(a%i == 0)
+			return false;
+	}
+	return true;
+}
+
+void func(long long a){
+	long long b = a;
+	long long count = 0;
 	while(a%2 == 0){
 		++count;
 		a /= 2;
 	}
 	num *= (count+1);
 
-
-
-	for(int i = 3; i <= a; i+=2){
+	for(long long i = 3; i <= a; i+=2){
 		count = 0;
-		while(a%i == 0){
-			++count;
-			a /= i;
+		if(!isPrime(a)){
+			while(a%i == 0){
+				++count;
+				a /= i;
+			}
+			num *= (count+1);
+		}else{
+			count = 1;
+			num *= (count+1);
+			break;
 		}
-		num *= (count+1);
 	}
+
 }
 
 
@@ -34,13 +55,15 @@ void func(long a){
 int main(int argc, char const *argv[])
 {
 	int N;
-	while(cin>>N){
+	while(scanf("%d", &N) != EOF){
 		if(N == 0) break;
-		long a;
+
+		long long *a = new long long [N];
+		for(int i = 0; i < N; i++)
+			cin>>a[i];
 		for(int i = 0; i < N; i++){
-			cin>>a;
 			num = 1;
-			func(a);
+			func(a[i]);
 			cout<<num<<endl;
 		}
 	}
