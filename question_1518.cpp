@@ -39,6 +39,17 @@ ListNode* reverseList_recursive(ListNode *head){
 	return head;
 }
 
+
+ListNode* reverseList_recursive_2(ListNode *oldhead, ListNode *newhead){
+	if(oldhead == NULL)
+		return newhead;
+	ListNode *tempNode = oldhead;
+	oldhead = oldhead->next;
+	tempNode->next = newhead;
+	newhead = tempNode;
+	return reverseList_recursive_2(oldhead, newhead); 
+}
+
 void print(ListNode *head){
 	while(head != NULL){
 		if(head->next != NULL)
@@ -97,7 +108,10 @@ int main(int argc, char const *argv[])
 		//reverseList_recursive(&node[0]);
 		//print(&node[n-1]);
 
-		ListNode *newhead = reverseList_nonRecursive(&node[0]);
+		//ListNode *newhead = reverseList_nonRecursive(&node[0]);
+		
+		ListNode *newhead = reverseList_recursive_2(&node[0], NULL);
+
 		print(newhead);
 
 		delete [] node;
